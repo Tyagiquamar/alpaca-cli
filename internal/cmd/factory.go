@@ -78,9 +78,7 @@ func queryFromFlags(cmd *cobra.Command, op api.Op) url.Values {
 		case "int":
 			v.Set(f.OASName, fmt.Sprint(cmdutil.Int(cmd, f.Name)))
 		case "bool":
-			if cmdutil.Bool(cmd, f.Name) {
-				v.Set(f.OASName, "true")
-			}
+			v.Set(f.OASName, fmt.Sprint(cmdutil.Bool(cmd, f.Name)))
 		}
 	}
 	return v

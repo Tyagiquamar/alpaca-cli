@@ -78,6 +78,21 @@ func TestQueryFromFlagsBoolValue(t *testing.T) {
 	}
 }
 
+func TestQueryFromFlagsBoolFalse(t *testing.T) {
+	cmd := &cobra.Command{Use: "test"}
+	cmdutil.RegisterFlags(cmd, api.LogosOp.Flags, "", nil)
+
+	if v := queryFromFlags(cmd, api.LogosOp); v.Has("placeholder") {
+		t.Errorf("unchanged placeholder should be omitted, got %q", v.Get("placeholder"))
+	}
+
+	_ = cmd.Flags().Set("placeholder", "false")
+	v := queryFromFlags(cmd, api.LogosOp)
+	if got := v.Get("placeholder"); got != "false" {
+		t.Errorf("placeholder = %q, want %q", got, "false")
+	}
+}
+
 func TestQueryFromFlagsFieldCoverage(t *testing.T) {
 	cmd := &cobra.Command{Use: "test"}
 	cmdutil.RegisterFlags(cmd, api.GetAllOrdersOp.Flags, "", nil)
